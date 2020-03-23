@@ -38,6 +38,8 @@ android {
 dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     def dependencies = rootProject.ext.dependencies
     def testDependencies = rootProject.ext.testDependecies
@@ -51,6 +53,7 @@ dependencies {
     implementation dependencies.constraintlayout
     implementation dependencies.cardView
     implementation dependencies.recyclerView
+    implementation dependencies.material
 
 
     //Glide

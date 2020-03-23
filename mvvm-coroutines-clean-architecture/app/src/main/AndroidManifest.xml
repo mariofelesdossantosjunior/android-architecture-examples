@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name="br.com.mobiplus.gitclient.presentation.ui.gitRepo.GitRepoListActivity">
+        <activity android:name="br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.GitRepoListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,10 +25,16 @@
         </activity>
 
         <activity
-            android:name="br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListActivity"
+            android:name="br.com.mobiplus.gitclient.presentation.ui.gitRepo.GitRepoActivity"
             android:label="@string/pull_requests_screen_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!--<activity
+            android:name="br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListActivity"
+            android:label="@string/pull_requests_screen_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
 
         <activity
             android:name="br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestActivity"

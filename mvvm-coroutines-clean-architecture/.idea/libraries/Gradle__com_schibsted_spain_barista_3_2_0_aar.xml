@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.schibsted.spain:barista:3.2.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cc04fb489193cfd416c47e71c9bf724c/jetified-barista-3.2.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cc04fb489193cfd416c47e71c9bf724c/jetified-barista-3.2.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cc04fb489193cfd416c47e71c9bf724c/jetified-barista-3.2.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.schibsted.spain/barista/3.2.0/cd537d17ea2207b7f1567a1e56c59af0fc8f0a88/barista-3.2.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.schibsted.spain/barista/3.2.0/70ee1e25349d9c5708cf05b6a647293e30a5c4c1/barista-3.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -8,4 +8,9 @@
     <string name="error_message">Ocorreu um erro inesperado</string>
     <string name="empty_list">Lista vazia</string>
     <string name="try_again">Tente novamente</string>
+    <string name="text_title">Title</string>
+    <string name="text_description">Description</string>
+    <string name="nav_detail">Details</string>
+    <string name="nav_pull_request">Pull Requests</string>
+    <string name="detail">Detail Repository</string>
 </resources>

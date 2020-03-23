@@ -1,8 +1,11 @@
 package br.com.mobiplus.gitclient.presentation.ui.pullRequest.list
 
-import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.mobiplus.gitclient.R
@@ -10,7 +13,6 @@ import br.com.mobiplus.gitclient.domain.model.PullRequestModel
 import br.com.mobiplus.gitclient.presentation.extensions.setGone
 import br.com.mobiplus.gitclient.presentation.extensions.setVisible
 import br.com.mobiplus.gitclient.presentation.extensions.showToast
-import br.com.mobiplus.gitclient.presentation.ui.base.Navigator
 import br.com.mobiplus.gitclient.presentation.ui.base.ViewState
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestActivity
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRequestListAdapter
@@ -18,30 +20,28 @@ import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRe
 import kotlinx.android.synthetic.main.activity_pull_request_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PullRequestListActivity : AppCompatActivity() {
+class PullRequestListActivity(
+    val owner: String,
+    val gitRepoName: String
+) : Fragment() {
+
     companion object {
-        fun open(from: Context, owner: String, gitRepoName: String) {
-            val bundle = Bundle()
-
-            bundle.putString("ownerModel", owner)
-            bundle.putString("gitRepoName", gitRepoName)
-
-            Navigator.goToActivity(from, PullRequestListActivity::class.java, bundle)
-        }
+        fun newInstance(owner: String, gitRepoName: String) =
+            PullRequestListActivity(owner, gitRepoName)
     }
 
     private val viewModel by viewModel<PullRequestListViewModel>()
     private lateinit var adapter: PullRequestListAdapter
 
-    private lateinit var owner: String
-    private lateinit var gitRepoName: String
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.activity_pull_request_list, container, false)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pull_request_list)
-
-        owner = intent.extras?.getString("ownerModel") ?: ""
-        gitRepoName = intent.extras?.getString("gitRepoName") ?: ""
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         this.initToolbar()
         this.initRecyclerView()
@@ -54,16 +54,13 @@ class PullRequestListActivity : AppCompatActivity() {
         )
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "$gitRepoName Pull Requests"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        val appCompatActivity = (activity as AppCompatActivity?)
+
+        appCompatActivity?.setSupportActionBar(toolbar)
+        appCompatActivity?.title = "$gitRepoName Pull Requests"
+        appCompatActivity?.actionBar?.setDisplayHomeAsUpEnabled(true)
+        appCompatActivity?.actionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun initObservers() {
@@ -103,22 +100,28 @@ class PullRequestListActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        adapter = PullRequestListAdapter(
-            this,
-            mutableListOf(),
-            object : PullRequestListAdapterListener {
-                override fun onItemClick(pullRequestNumber: Long) {
-                    PullRequestActivity.open(
-                        this@PullRequestListActivity,
-                        owner,
-                        gitRepoName,
-                        pullRequestNumber
-                    )
-                }
-            }
-        )
+        activity?.let {
+            adapter = PullRequestListAdapter(
+                it,
+                mutableListOf(),
+                object : PullRequestListAdapterListener {
+                    override fun onItemClick(pullRequestNumber: Long) {
+                        context?.let {
+                            PullRequestActivity.open(
+                                it,
+                                owner,
+                                gitRepoName,
+                                pullRequestNumber
+                            )
+                        }
 
-        recyclerViewPullRequests.layoutManager = LinearLayoutManager(this)
+                    }
+                }
+            )
+        }
+
+
+        recyclerViewPullRequests.layoutManager = LinearLayoutManager(context)
         recyclerViewPullRequests.adapter = adapter
     }
 

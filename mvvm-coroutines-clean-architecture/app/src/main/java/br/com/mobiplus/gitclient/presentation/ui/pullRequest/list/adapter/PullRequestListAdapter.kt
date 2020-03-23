@@ -3,12 +3,13 @@ package br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import br.com.mobiplus.gitclient.R
 import br.com.mobiplus.gitclient.domain.model.PullRequestModel
 
 class PullRequestListAdapter(
-    private val activity: Activity,
+    private val activity: FragmentActivity,
     private val pullRequestList: MutableList<PullRequestModel>,
     private val listener: PullRequestListAdapterListener
 ) : RecyclerView.Adapter<PullRequestViewHolder>() {

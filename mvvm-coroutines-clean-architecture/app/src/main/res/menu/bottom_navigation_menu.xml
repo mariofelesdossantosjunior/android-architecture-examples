@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_nav_detail"
+        android:icon="@drawable/ic_detail"
+        android:title="@string/nav_detail" />
+
+    <item
+        android:id="@+id/bottom_nav_pull_request"
+        android:icon="@drawable/ic_pull_request"
+        android:title="@string/nav_pull_request" />
+</menu>
