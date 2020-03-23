@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,17 +16,17 @@ import br.com.mobiplus.gitclient.presentation.ui.base.ViewState
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestActivity
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRequestListAdapter
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRequestListAdapterListener
-import kotlinx.android.synthetic.main.activity_pull_request_list.*
+import kotlinx.android.synthetic.main.fragment_pull_request_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PullRequestListActivity(
+class PullRequestListFragment(
     val owner: String,
     val gitRepoName: String
 ) : Fragment() {
 
     companion object {
         fun newInstance(owner: String, gitRepoName: String) =
-            PullRequestListActivity(owner, gitRepoName)
+            PullRequestListFragment(owner, gitRepoName)
     }
 
     private val viewModel by viewModel<PullRequestListViewModel>()
@@ -37,13 +36,12 @@ class PullRequestListActivity(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.activity_pull_request_list, container, false)
+        return inflater.inflate(R.layout.fragment_pull_request_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        this.initToolbar()
         this.initRecyclerView()
         this.initObservers()
         this.initListeners()
@@ -52,15 +50,6 @@ class PullRequestListActivity(
             owner = owner,
             gitRepoName = gitRepoName
         )
-    }
-
-    private fun initToolbar() {
-        val appCompatActivity = (activity as AppCompatActivity?)
-
-        appCompatActivity?.setSupportActionBar(toolbar)
-        appCompatActivity?.title = "$gitRepoName Pull Requests"
-        appCompatActivity?.actionBar?.setDisplayHomeAsUpEnabled(true)
-        appCompatActivity?.actionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun initObservers() {

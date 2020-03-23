@@ -1,8 +1,11 @@
 package br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model
 
+import android.os.Parcelable
 import br.com.mobiplus.gitclient.domain.model.GitRepoModel
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class GitRepoUIModel(
     var id: Int? = null,
     var name: String? = null,
@@ -14,7 +17,7 @@ data class GitRepoUIModel(
     var openIssuesCount: Int? = null,
     var ownerLogin: String? = null,
     var ownerAvatarUrl: String? = null
-) {
+) : Parcelable {
     fun mapFrom(from: GitRepoModel) {
         this.id = from.id
         this.name = from.name

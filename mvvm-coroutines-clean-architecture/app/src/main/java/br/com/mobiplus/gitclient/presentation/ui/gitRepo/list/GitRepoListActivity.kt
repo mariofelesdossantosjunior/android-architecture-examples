@@ -78,8 +78,7 @@ class GitRepoListActivity : AppCompatActivity() {
                 override fun onItemClick(item: GitRepoUIModel) {
                     GitRepoActivity.open(
                         this@GitRepoListActivity,
-                        item.ownerLogin!!,
-                        item.name!!
+                        gitRepoIUModel =  item
                     )
                 }
 

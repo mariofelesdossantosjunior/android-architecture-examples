@@ -3,42 +3,31 @@ package br.com.mobiplus.gitclient.presentation.ui.gitRepo
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.mobiplus.gitclient.R
 import br.com.mobiplus.gitclient.presentation.extensions.replaceFragment
-import br.com.mobiplus.gitclient.presentation.extensions.setGone
-import br.com.mobiplus.gitclient.presentation.extensions.setVisible
-import br.com.mobiplus.gitclient.presentation.extensions.showToast
 import br.com.mobiplus.gitclient.presentation.ui.base.Navigator
-import br.com.mobiplus.gitclient.presentation.ui.base.ViewState
-import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.GitRepoListViewModel
-import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.adapter.GitRepoAdapterListener
-import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.adapter.GitRepoListAdapter
+import br.com.mobiplus.gitclient.presentation.ui.gitRepo.details.GitRepoDetailFragment
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model.GitRepoUIModel
-import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListActivity
+import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_git_repo.*
-import kotlinx.android.synthetic.main.activity_git_repo_list.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GitRepoActivity
     : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
-        fun open(from: Context, owner: String, gitRepoName: String) {
+        fun open(from: Context, gitRepoIUModel: GitRepoUIModel) {
             val bundle = Bundle()
 
-            bundle.putString("ownerModel", owner)
-            bundle.putString("gitRepoName", gitRepoName)
+            bundle.putParcelable("gitRepoIUModel", gitRepoIUModel)
 
             Navigator.goToActivity(from, GitRepoActivity::class.java, bundle)
         }
     }
 
+    private lateinit var repoUIModel: GitRepoUIModel
     private lateinit var owner: String
     private lateinit var gitRepoName: String
 
@@ -47,20 +36,37 @@ class GitRepoActivity
         setContentView(R.layout.activity_git_repo)
         bottom_navigation_detail.setOnNavigationItemSelectedListener(this)
 
-        owner = intent.extras?.getString("ownerModel") ?: ""
-        gitRepoName = intent.extras?.getString("gitRepoName") ?: ""
+        intent.extras?.getParcelable<GitRepoUIModel>("gitRepoIUModel")?.let {
+            owner = it.ownerLogin.toString()
+            gitRepoName = it.name.toString()
+            repoUIModel = it
+        }
+
+        this.initToolbar()
+
+        replaceFragment(GitRepoDetailFragment(repoUIModel), R.id.container_detail)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Details Repository"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.bottom_nav_detail -> {
-                Toast.makeText(this, "Bottom Detail", Toast.LENGTH_LONG).show()
-                //replaceFragment(PullRequestListActivity.newInstance(), R.id.content)
+                replaceFragment(GitRepoDetailFragment(repoUIModel), R.id.container_detail)
                 true
             }
             R.id.bottom_nav_pull_request -> {
-                replaceFragment(PullRequestListActivity.newInstance(owner, gitRepoName), R.id.container_detail)
+                replaceFragment(PullRequestListFragment(owner, gitRepoName), R.id.container_detail)
                 true
             }
             else -> false

@@ -1,6 +1,7 @@
 package br.com.mobiplus.gitclient.presentation.di
 
 import br.com.mobiplus.gitclient.domain.usecases.GetGitRepoListUseCase
+import br.com.mobiplus.gitclient.presentation.ui.gitRepo.details.GitRepoDetailViewModel
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.GitRepoListViewModel
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestViewModel
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListViewModel
@@ -24,5 +25,9 @@ val viewModelModule = module {
         PullRequestViewModel(
             getPullRequestUseCase = get()
         )
+    }
+
+    viewModel {
+        GitRepoDetailViewModel()
     }
 }
