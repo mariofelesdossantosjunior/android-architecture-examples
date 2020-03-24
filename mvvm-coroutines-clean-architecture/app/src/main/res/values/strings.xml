@@ -4,6 +4,7 @@
     <string name="pull_request_screen_name">Pull Request</string>
     <string name="repo_loading_message">Buscando repositórios</string>
     <string name="pull_requests_loading_message">Buscando pull requests</string>
+    <string name="issues_loading_message">Buscando issues</string>
     <string name="pull_request_loading_message">Buscando pull request</string>
     <string name="error_message">Ocorreu um erro inesperado</string>
     <string name="empty_list">Lista vazia</string>
@@ -13,4 +14,5 @@
     <string name="nav_detail">Details</string>
     <string name="nav_pull_request">Pull Requests</string>
     <string name="detail">Detail Repository</string>
+    <string name="nav_issues">Issues</string>
 </resources>

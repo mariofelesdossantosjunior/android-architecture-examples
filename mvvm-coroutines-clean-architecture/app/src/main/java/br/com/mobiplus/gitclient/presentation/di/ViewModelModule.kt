@@ -3,6 +3,7 @@ package br.com.mobiplus.gitclient.presentation.di
 import br.com.mobiplus.gitclient.domain.usecases.GetGitRepoListUseCase
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.details.GitRepoDetailViewModel
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.GitRepoListViewModel
+import br.com.mobiplus.gitclient.presentation.ui.issues.list.IssuesListViewModel
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestViewModel
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,5 +30,11 @@ val viewModelModule = module {
 
     viewModel {
         GitRepoDetailViewModel()
+    }
+
+    viewModel {
+        IssuesListViewModel(
+            getIssuesUseCase = get()
+        )
     }
 }

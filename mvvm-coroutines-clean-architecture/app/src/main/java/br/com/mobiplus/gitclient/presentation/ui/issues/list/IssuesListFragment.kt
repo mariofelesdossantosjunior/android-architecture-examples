@@ -1,6 +1,5 @@
-package br.com.mobiplus.gitclient.presentation.ui.pullRequest.list
+package br.com.mobiplus.gitclient.presentation.ui.issues.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.mobiplus.gitclient.R
-import br.com.mobiplus.gitclient.domain.model.PullRequestModel
+import br.com.mobiplus.gitclient.domain.model.IssuesModel
 import br.com.mobiplus.gitclient.presentation.extensions.setGone
 import br.com.mobiplus.gitclient.presentation.extensions.setVisible
 import br.com.mobiplus.gitclient.presentation.extensions.showToast
-import br.com.mobiplus.gitclient.presentation.ui.base.Navigator
 import br.com.mobiplus.gitclient.presentation.ui.base.ViewState
-import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model.GitRepoUIModel
-import br.com.mobiplus.gitclient.presentation.ui.pullRequest.details.PullRequestActivity
-import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRequestListAdapter
-import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.adapter.PullRequestListAdapterListener
-import kotlinx.android.synthetic.main.fragment_pull_request_list.*
+import br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter.IssuesListAdapter
+import br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter.IssuesListAdapterListener
+import kotlinx.android.synthetic.main.fragment_issues_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PullRequestListFragment() : Fragment() {
+class IssuesListFragment() : Fragment() {
 
     companion object {
         fun open(owner: String, gitRepoName: String): Fragment {
@@ -31,7 +27,7 @@ class PullRequestListFragment() : Fragment() {
             bundle.putString("ownerModel", owner)
             bundle.putString("gitRepoName", gitRepoName)
 
-            return PullRequestListFragment().apply {
+            return IssuesListFragment().apply {
                 this.arguments = bundle
             }
         }
@@ -39,8 +35,8 @@ class PullRequestListFragment() : Fragment() {
 
     private lateinit var owner: String
     private lateinit var gitRepoName: String
-    private val viewModel by viewModel<PullRequestListViewModel>()
-    private lateinit var adapter: PullRequestListAdapter
+    private val viewModel by viewModel<IssuesListViewModel>()
+    private lateinit var adapter: IssuesListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +45,7 @@ class PullRequestListFragment() : Fragment() {
         owner = arguments?.getString("ownerModel") ?: ""
         gitRepoName = arguments?.getString("gitRepoName") ?: ""
 
-        return inflater.inflate(R.layout.fragment_pull_request_list, container, false)
+        return inflater.inflate(R.layout.fragment_issues_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,14 +55,14 @@ class PullRequestListFragment() : Fragment() {
         this.initObservers()
         this.initListeners()
 
-        viewModel.loadPullRequestList(
+        viewModel.loadIssuesList(
             owner = owner,
             gitRepoName = gitRepoName
         )
     }
 
     private fun initObservers() {
-        viewModel.pullRequestListState.observe(this, Observer {
+        viewModel.issuesListState.observe(this, Observer {
             when (it) {
                 is ViewState.Loading -> {
                     showLoadingView()
@@ -93,8 +89,8 @@ class PullRequestListFragment() : Fragment() {
     }
 
     private fun initListeners() {
-        buttonPullRequestsTryAgain.setOnClickListener {
-            viewModel.loadPullRequestList(
+        buttonIssuesTryAgain.setOnClickListener {
+            viewModel.loadIssuesList(
                 owner = "",
                 gitRepoName = ""
             )
@@ -103,18 +99,18 @@ class PullRequestListFragment() : Fragment() {
 
     private fun initRecyclerView() {
         activity?.let {
-            adapter = PullRequestListAdapter(
+            adapter = IssuesListAdapter(
                 it,
                 mutableListOf(),
-                object : PullRequestListAdapterListener {
-                    override fun onItemClick(pullRequestNumber: Long) {
+                object : IssuesListAdapterListener {
+                    override fun onItemClick(issuesNumber: Long) {
                         context?.let {
-                            PullRequestActivity.open(
-                                it,
-                                owner,
-                                gitRepoName,
-                                pullRequestNumber
-                            )
+//                            IssuesActivity.open(
+//                                it,
+//                                owner,
+//                                gitRepoName,
+//                                issuesNumber
+//                            )
                         }
 
                     }
@@ -123,8 +119,8 @@ class PullRequestListFragment() : Fragment() {
         }
 
 
-        recyclerViewPullRequests.layoutManager = LinearLayoutManager(context)
-        recyclerViewPullRequests.adapter = adapter
+        recyclerViewIssues.layoutManager = LinearLayoutManager(context)
+        recyclerViewIssues.adapter = adapter
     }
 
     //region ViewStates
@@ -132,37 +128,37 @@ class PullRequestListFragment() : Fragment() {
         hideErrorView()
         hideContent()
 
-        layoutPullRequestsLoading.setVisible()
+        layoutIssuesLoading.setVisible()
     }
 
     private fun hideLoadingView() {
-        layoutPullRequestsLoading.setGone()
+        layoutIssuesLoading.setGone()
     }
 
     private fun showErrorView(message: String) {
         hideLoadingView()
         hideContent()
 
-        textPullRequestsError.text = message
-        layoutPullRequestsError.setVisible()
+        textIssuesError.text = message
+        layoutIssuesError.setVisible()
     }
 
     private fun hideErrorView() {
-        layoutPullRequestsError.setGone()
-        textPullRequestsError.text = ""
+        layoutIssuesError.setGone()
+        textIssuesError.text = ""
     }
 
-    private fun showContent(pullRequestList: List<PullRequestModel>) {
+    private fun showContent(issuesList: List<IssuesModel>) {
         hideLoadingView()
         hideErrorView()
 
-        adapter.addItems(pullRequestList)
+        adapter.addItems(issuesList)
 
-        recyclerViewPullRequests.setVisible()
+        recyclerViewIssues.setVisible()
     }
 
     private fun hideContent() {
-        recyclerViewPullRequests.setGone()
+        recyclerViewIssues.setGone()
     }
     //endregion
 }

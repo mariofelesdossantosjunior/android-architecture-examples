@@ -11,4 +11,9 @@
         android:id="@+id/bottom_nav_pull_request"
         android:icon="@drawable/ic_pull_request"
         android:title="@string/nav_pull_request" />
+
+    <item
+        android:id="@+id/bottom_nav_issues"
+        android:icon="@drawable/ic_pull_request"
+        android:title="@string/nav_issues" />
 </menu>

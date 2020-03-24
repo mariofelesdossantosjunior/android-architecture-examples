@@ -9,6 +9,7 @@ import br.com.mobiplus.gitclient.presentation.extensions.replaceFragment
 import br.com.mobiplus.gitclient.presentation.ui.base.Navigator
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.details.GitRepoDetailFragment
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model.GitRepoUIModel
+import br.com.mobiplus.gitclient.presentation.ui.issues.list.IssuesListFragment
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_git_repo.*
@@ -44,7 +45,7 @@ class GitRepoActivity
 
         this.initToolbar()
 
-        replaceFragment(GitRepoDetailFragment(repoUIModel), R.id.container_detail)
+        replaceFragment(GitRepoDetailFragment.open(repoUIModel), R.id.container_detail)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -62,11 +63,15 @@ class GitRepoActivity
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.bottom_nav_detail -> {
-                replaceFragment(GitRepoDetailFragment(repoUIModel), R.id.container_detail)
+                replaceFragment(GitRepoDetailFragment.open(repoUIModel), R.id.container_detail)
                 true
             }
             R.id.bottom_nav_pull_request -> {
-                replaceFragment(PullRequestListFragment(owner, gitRepoName), R.id.container_detail)
+                replaceFragment(PullRequestListFragment.open(owner, gitRepoName), R.id.container_detail)
+                true
+            }
+            R.id.bottom_nav_issues -> {
+                replaceFragment(IssuesListFragment.open(owner, gitRepoName), R.id.container_detail)
                 true
             }
             else -> false

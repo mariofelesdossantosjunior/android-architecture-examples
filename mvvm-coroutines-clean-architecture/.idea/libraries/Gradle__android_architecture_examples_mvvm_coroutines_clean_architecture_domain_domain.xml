@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: mvvm-coroutines-clean-architecture.domain.domain">
+  <library name="Gradle: android-architecture-examples.mvvm-coroutines-clean-architecture.domain.domain">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/domain/build/libs/domain.jar!/" />
     </CLASSES>

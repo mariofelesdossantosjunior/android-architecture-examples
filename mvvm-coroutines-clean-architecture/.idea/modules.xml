@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-architecture-examples.mvvm-coroutines-clean-architecture.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-architecture-examples.mvvm-coroutines-clean-architecture.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/android-architecture-examples.mvvm-coroutines-clean-architecture.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/android-architecture-examples.mvvm-coroutines-clean-architecture.data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/android-architecture-examples.mvvm-coroutines-clean-architecture.domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/android-architecture-examples.mvvm-coroutines-clean-architecture.domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvvm-coroutines-clean-architecture.iml" filepath="$PROJECT_DIR$/mvvm-coroutines-clean-architecture.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mvvm-coroutines-clean-architecture.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mvvm-coroutines-clean-architecture.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/mvvm-coroutines-clean-architecture.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/mvvm-coroutines-clean-architecture.data.iml" />

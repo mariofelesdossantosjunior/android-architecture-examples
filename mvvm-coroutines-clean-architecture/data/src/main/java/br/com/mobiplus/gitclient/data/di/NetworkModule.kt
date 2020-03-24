@@ -2,6 +2,7 @@ package br.com.mobiplus.gitclient.data.di
 
 import br.com.mobiplus.gitclient.R
 import br.com.mobiplus.gitclient.data.gitrepo.remote.GitRepoApi
+import br.com.mobiplus.gitclient.data.issues.IssuesApi
 import br.com.mobiplus.gitclient.data.pullRequest.PullRequestApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,6 +50,10 @@ val networkModule = module {
     }
 
     factory<PullRequestApi> {
+        provideApi(retrofit = get(named(githubApiScopeName)))
+    }
+
+    factory<IssuesApi> {
         provideApi(retrofit = get(named(githubApiScopeName)))
     }
 }
