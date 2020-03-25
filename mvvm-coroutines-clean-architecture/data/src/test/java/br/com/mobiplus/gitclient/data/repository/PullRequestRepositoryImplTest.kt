@@ -69,6 +69,7 @@ class PullRequestRepositoryImplTest {
                     pullRequestAPIDataSource
                 ), recordPrivateCalls = true
             )
+
         runBlocking {
             pullRequestRepositoryImpl.getPullRequestList("", "")
         }
