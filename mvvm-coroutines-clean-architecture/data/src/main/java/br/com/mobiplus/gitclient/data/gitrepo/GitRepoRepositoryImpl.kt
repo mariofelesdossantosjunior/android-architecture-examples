@@ -48,12 +48,6 @@ class GitRepoRepositoryImpl(
         }
     }
 
-    override suspend fun getGitRepo(
-        id: Int
-    ): ResultWrapper<GitRepoModel, BaseErrorData<GithubError>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getGitRepoStats(
         owner: String,
         gitRepoName: String

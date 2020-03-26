@@ -1,23 +1,22 @@
 package br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model
 
-import android.os.Parcelable
+import br.com.mobiplus.gitclient.domain.model.FeatureFlagModel
 import br.com.mobiplus.gitclient.domain.model.GitRepoModel
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 import java.util.*
 
-@Parcelize
 data class GitRepoUIModel(
     var id: Int? = null,
     var name: String? = null,
     var description: String? = null,
     var stargazersCount: Int? = null,
     var forksCount: Int? = null,
-    var reliabilityFactor: String? = null,
+    var reliabilityFactor: FeatureFlagModel<String>? = null,
     var language: String? = null,
     var openIssuesCount: Int? = null,
     var ownerLogin: String? = null,
     var ownerAvatarUrl: String? = null
-) : Parcelable {
+) : Serializable {
     fun mapFrom(from: GitRepoModel) {
         this.id = from.id
         this.name = from.name
@@ -26,7 +25,10 @@ data class GitRepoUIModel(
         this.forksCount = from.forksCount
 
         from.reliabilityFactor?.let {
-            this.reliabilityFactor = String.format(Locale.US, "%.2f", it)
+            this.reliabilityFactor = FeatureFlagModel<String>(
+                enabled = it.enabled,
+                data = String.format(Locale.US, "%.2f", it.data)
+            )
         }
 
         this.language = from.language

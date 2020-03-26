@@ -11,6 +11,7 @@ import br.com.mobiplus.gitclient.presentation.ui.gitRepo.details.GitRepoDetailFr
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model.GitRepoUIModel
 import br.com.mobiplus.gitclient.presentation.ui.issues.list.IssuesListFragment
 import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListFragment
+import br.com.mobiplus.gitclient.presentation.util.Constants.Companion.GIT_REPO_UI_MODEL
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_git_repo.*
 
@@ -22,7 +23,7 @@ class GitRepoActivity
         fun open(from: Context, gitRepoIUModel: GitRepoUIModel) {
             val bundle = Bundle()
 
-            bundle.putParcelable("gitRepoIUModel", gitRepoIUModel)
+            bundle.putSerializable(GIT_REPO_UI_MODEL, gitRepoIUModel)
 
             Navigator.goToActivity(from, GitRepoActivity::class.java, bundle)
         }
@@ -37,7 +38,9 @@ class GitRepoActivity
         setContentView(R.layout.activity_git_repo)
         bottom_navigation_detail.setOnNavigationItemSelectedListener(this)
 
-        intent.extras?.getParcelable<GitRepoUIModel>("gitRepoIUModel")?.let {
+        val gitRepo = intent.getSerializableExtra(GIT_REPO_UI_MODEL) as GitRepoUIModel
+
+        gitRepo.let {
             owner = it.ownerLogin.toString()
             gitRepoName = it.name.toString()
             repoUIModel = it
@@ -67,7 +70,10 @@ class GitRepoActivity
                 true
             }
             R.id.bottom_nav_pull_request -> {
-                replaceFragment(PullRequestListFragment.open(owner, gitRepoName), R.id.container_detail)
+                replaceFragment(
+                    PullRequestListFragment.open(owner, gitRepoName),
+                    R.id.container_detail
+                )
                 true
             }
             R.id.bottom_nav_issues -> {

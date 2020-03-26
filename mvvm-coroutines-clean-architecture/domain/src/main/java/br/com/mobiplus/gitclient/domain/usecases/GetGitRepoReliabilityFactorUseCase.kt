@@ -3,38 +3,45 @@ package br.com.mobiplus.gitclient.domain.usecases
 import br.com.mobiplus.gitclient.domain.base.BaseErrorData
 import br.com.mobiplus.gitclient.domain.base.resultwrapper.ResultWrapper
 import br.com.mobiplus.gitclient.domain.base.usecase.BaseUseCase
+import br.com.mobiplus.gitclient.domain.model.FeatureFlagModel
 import br.com.mobiplus.gitclient.domain.model.GitRepoStatsModel
 import br.com.mobiplus.gitclient.domain.model.GithubError
 import br.com.mobiplus.gitclient.domain.repository.GitRepoRepository
 
 class GetGitRepoReliabilityFactorUseCase(
     private val gitRepoRepository: GitRepoRepository
-) : BaseUseCase<ResultWrapper<Double?, BaseErrorData<GithubError>>, GetGitRepoReliabilityFactorUseCase.Params>() {
+) : BaseUseCase<ResultWrapper<FeatureFlagModel<Double>, BaseErrorData<GithubError>>, GetGitRepoReliabilityFactorUseCase.Params>() {
 
-    override fun runSync(params: Params): ResultWrapper<Double?, BaseErrorData<GithubError>> {
-        val (enabled, multiplier) = gitRepoRepository.getGitRepoReliabilityMultiplier()
+    override fun runSync(params: Params): ResultWrapper<FeatureFlagModel<Double>, BaseErrorData<GithubError>> {
+        val flag = gitRepoRepository.getGitRepoReliabilityMultiplier()
 
-        return if (enabled) {
+        return if (flag.enabled) {
             val result = gitRepoRepository.getGitRepoStats(params.owner, params.gitRepoName)
 
             result.transformSuccess(
-                this.transformSuccess(multiplier!!)
+                this.transformSuccess(flag)
             )
         } else {
             ResultWrapper(
-                success = null
+                success = FeatureFlagModel(
+                    enabled = false,
+                    data = 0.0
+                )
             )
         }
     }
 
-    private fun transformSuccess(multiplier: Int): (GitRepoStatsModel) -> Double {
+    private fun transformSuccess(flag: FeatureFlagModel<Int>): (GitRepoStatsModel) -> FeatureFlagModel<Double> {
         return { gitRepoStatsModel ->
-            calculateReliabilityFactor(
-                engagementMultiplier = multiplier,
-                closedIssues = gitRepoStatsModel.closedIssues,
-                openedIssues = gitRepoStatsModel.openedIssues,
-                mergedPullRequests = gitRepoStatsModel.mergedPullRequests,
-                proposedPullRequests = gitRepoStatsModel.proposedPullRequests
+            FeatureFlagModel(
+                enabled = flag.enabled,
+                data = calculateReliabilityFactor(
+                    engagementMultiplier = flag.data ?: 1,
+                    closedIssues = gitRepoStatsModel.closedIssues,
+                    openedIssues = gitRepoStatsModel.openedIssues,
+                    mergedPullRequests = gitRepoStatsModel.mergedPullRequests,
+                    proposedPullRequests = gitRepoStatsModel.proposedPullRequests
+                )
             )
         }
     }

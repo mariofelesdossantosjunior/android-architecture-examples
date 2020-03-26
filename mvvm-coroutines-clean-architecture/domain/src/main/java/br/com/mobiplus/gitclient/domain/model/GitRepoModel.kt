@@ -20,5 +20,5 @@ data class GitRepoModel(
     val watchers: Int? = null,
     val watchersCount: Int? = null,
     val stargazersCount: Int? = null,
-    var reliabilityFactor: Double? = null
+    var reliabilityFactor: FeatureFlagModel<Double>? = null
 )
