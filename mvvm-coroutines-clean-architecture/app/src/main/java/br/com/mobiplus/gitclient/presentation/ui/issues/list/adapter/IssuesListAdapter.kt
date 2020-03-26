@@ -2,13 +2,11 @@ package br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import br.com.mobiplus.gitclient.R
 import br.com.mobiplus.gitclient.domain.model.IssuesModel
 
 class IssuesListAdapter(
-    private val activity: FragmentActivity,
     private val issuesList: MutableList<IssuesModel>,
     private val listener: IssuesListAdapterListener
 ) : RecyclerView.Adapter<IssuesViewHolder>() {
