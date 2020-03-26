@@ -19,10 +19,12 @@ class GitRepoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.textForksCount.text = gitRepo.forksCount.toString()
         itemView.textIssuesCount.text = gitRepo.openIssuesCount.toString()
 
-        if (gitRepo.reliabilityFactor != null) {
-            itemView.textReliability.text = gitRepo.reliabilityFactor
-        } else {
-            itemView.textReliability.setGone()
+        gitRepo.reliabilityFactor?.let {
+            if (it.enabled) {
+                itemView.textReliability.text = it.data
+            } else {
+                itemView.textReliability.setGone()
+            }
         }
 
         if (activity.isValidForGlide()) {

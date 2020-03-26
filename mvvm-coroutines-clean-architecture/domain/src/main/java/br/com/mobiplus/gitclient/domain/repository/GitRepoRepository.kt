@@ -15,10 +15,6 @@ interface GitRepoRepository {
         language: String
     ): ResultWrapper<List<GitRepoModel>, BaseErrorData<GithubError>>
 
-    suspend fun getGitRepo(
-        id: Int
-    ): ResultWrapper<GitRepoModel, BaseErrorData<GithubError>>
-
     fun getGitRepoStats(
         owner: String,
         gitRepoName: String

@@ -9,31 +9,32 @@ import androidx.lifecycle.Observer
 import br.com.mobiplus.gitclient.R
 import br.com.mobiplus.gitclient.presentation.extensions.loadImage
 import br.com.mobiplus.gitclient.presentation.ui.gitRepo.list.model.GitRepoUIModel
-import br.com.mobiplus.gitclient.presentation.ui.pullRequest.list.PullRequestListFragment
+import br.com.mobiplus.gitclient.presentation.util.Constants.Companion.GIT_REPO_UI_MODEL
 import kotlinx.android.synthetic.main.fragment_git_repo_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class GitRepoDetailFragment() : Fragment() {
+class GitRepoDetailFragment : Fragment() {
 
     companion object {
-        fun open(gitRepoModelUI: GitRepoUIModel): Fragment {
+        fun open(gitRepoUIModel: GitRepoUIModel): Fragment {
             val bundle = Bundle()
 
-            bundle.putParcelable("gitRepoModelUI", gitRepoModelUI)
+            bundle.putSerializable(GIT_REPO_UI_MODEL, gitRepoUIModel)
 
             return GitRepoDetailFragment().apply {
                 this.arguments = bundle
             }
         }
     }
-    private lateinit var gitRepoModelUI: GitRepoUIModel
+
+    private lateinit var gitRepoUIModel: GitRepoUIModel
     private val viewModel by viewModel<GitRepoDetailViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        gitRepoModelUI = arguments?.getParcelable<GitRepoUIModel>("gitRepoModelUI") as GitRepoUIModel
+        gitRepoUIModel = arguments?.getSerializable(GIT_REPO_UI_MODEL) as GitRepoUIModel
 
         return inflater.inflate(R.layout.fragment_git_repo_detail, container, false)
     }
@@ -43,7 +44,7 @@ class GitRepoDetailFragment() : Fragment() {
 
         this.initObservers()
 
-        viewModel.loadRepoDetails(gitRepoModelUI)
+        viewModel.loadRepoDetails(gitRepoUIModel)
     }
 
     private fun initObservers() {
