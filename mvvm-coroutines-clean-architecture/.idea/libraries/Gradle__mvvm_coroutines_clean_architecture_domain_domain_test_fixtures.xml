@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: mvvm-coroutines-clean-architecture.domain.domain-test-fixtures">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/domain/build/libs/domain-test-fixtures.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

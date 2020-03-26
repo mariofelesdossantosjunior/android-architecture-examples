@@ -13,12 +13,12 @@ import br.com.mobiplus.gitclient.presentation.extensions.setGone
 import br.com.mobiplus.gitclient.presentation.extensions.setVisible
 import br.com.mobiplus.gitclient.presentation.extensions.showToast
 import br.com.mobiplus.gitclient.presentation.ui.base.ViewState
-import br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter.IssuesListAdapter
-import br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter.IssuesListAdapterListener
+import br.com.mobiplus.gitclient.presentation.ui.issues.list.adapter.IssueAdapter
 import kotlinx.android.synthetic.main.fragment_issues_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class IssuesListFragment() : Fragment() {
+class IssuesListFragment
+    : Fragment() {
 
     companion object {
         fun open(owner: String, gitRepoName: String): Fragment {
@@ -36,7 +36,7 @@ class IssuesListFragment() : Fragment() {
     private lateinit var owner: String
     private lateinit var gitRepoName: String
     private val viewModel by viewModel<IssuesListViewModel>()
-    private lateinit var adapter: IssuesListAdapter
+    private lateinit var adapter: IssueAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,25 +99,15 @@ class IssuesListFragment() : Fragment() {
 
     private fun initRecyclerView() {
         activity?.let {
-            adapter = IssuesListAdapter(
-                it,
-                mutableListOf(),
-                object : IssuesListAdapterListener {
-                    override fun onItemClick(issuesNumber: Long) {
-                        context?.let {
-//                            IssuesActivity.open(
-//                                it,
-//                                owner,
-//                                gitRepoName,
-//                                issuesNumber
-//                            )
-                        }
-
-                    }
-                }
-            )
+            adapter = IssueAdapter {
+                /*IssuesActivity.open(
+                    it,
+                    owner,
+                    gitRepoName,
+                    issuesNumber
+                )*/
+            }
         }
-
 
         recyclerViewIssues.layoutManager = LinearLayoutManager(context)
         recyclerViewIssues.adapter = adapter
